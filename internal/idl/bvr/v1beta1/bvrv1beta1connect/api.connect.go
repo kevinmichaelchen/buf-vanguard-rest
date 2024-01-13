@@ -5,9 +5,9 @@
 package bvrv1beta1connect
 
 import (
+	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	connect_go "github.com/bufbuild/connect-go"
 	v1beta1 "github.com/kevinmichaelchen/buf-vanguard-rest/internal/idl/bvr/v1beta1"
 	http "net/http"
 	strings "strings"
@@ -18,7 +18,7 @@ import (
 // generated with a version of connect newer than the one compiled into your binary. You can fix the
 // problem by either regenerating this code with an older version of connect or updating the connect
 // version compiled into your binary.
-const _ = connect_go.IsAtLeastVersion0_1_0
+const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// FooServiceName is the fully-qualified name of the FooService service.
@@ -43,12 +43,21 @@ const (
 	FooServiceDeleteFooProcedure = "/bvr.v1beta1.FooService/DeleteFoo"
 )
 
+// These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
+var (
+	fooServiceServiceDescriptor         = v1beta1.File_bvr_v1beta1_api_proto.Services().ByName("FooService")
+	fooServiceCreateFooMethodDescriptor = fooServiceServiceDescriptor.Methods().ByName("CreateFoo")
+	fooServiceGetFooMethodDescriptor    = fooServiceServiceDescriptor.Methods().ByName("GetFoo")
+	fooServiceListFoosMethodDescriptor  = fooServiceServiceDescriptor.Methods().ByName("ListFoos")
+	fooServiceDeleteFooMethodDescriptor = fooServiceServiceDescriptor.Methods().ByName("DeleteFoo")
+)
+
 // FooServiceClient is a client for the bvr.v1beta1.FooService service.
 type FooServiceClient interface {
-	CreateFoo(context.Context, *connect_go.Request[v1beta1.CreateFooRequest]) (*connect_go.Response[v1beta1.CreateFooResponse], error)
-	GetFoo(context.Context, *connect_go.Request[v1beta1.GetFooRequest]) (*connect_go.Response[v1beta1.GetFooResponse], error)
-	ListFoos(context.Context, *connect_go.Request[v1beta1.ListFoosRequest]) (*connect_go.Response[v1beta1.ListFoosResponse], error)
-	DeleteFoo(context.Context, *connect_go.Request[v1beta1.DeleteFooRequest]) (*connect_go.Response[v1beta1.DeleteFooResponse], error)
+	CreateFoo(context.Context, *connect.Request[v1beta1.CreateFooRequest]) (*connect.Response[v1beta1.CreateFooResponse], error)
+	GetFoo(context.Context, *connect.Request[v1beta1.GetFooRequest]) (*connect.Response[v1beta1.GetFooResponse], error)
+	ListFoos(context.Context, *connect.Request[v1beta1.ListFoosRequest]) (*connect.Response[v1beta1.ListFoosResponse], error)
+	DeleteFoo(context.Context, *connect.Request[v1beta1.DeleteFooRequest]) (*connect.Response[v1beta1.DeleteFooResponse], error)
 }
 
 // NewFooServiceClient constructs a client for the bvr.v1beta1.FooService service. By default, it
@@ -58,66 +67,70 @@ type FooServiceClient interface {
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewFooServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) FooServiceClient {
+func NewFooServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) FooServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &fooServiceClient{
-		createFoo: connect_go.NewClient[v1beta1.CreateFooRequest, v1beta1.CreateFooResponse](
+		createFoo: connect.NewClient[v1beta1.CreateFooRequest, v1beta1.CreateFooResponse](
 			httpClient,
 			baseURL+FooServiceCreateFooProcedure,
-			opts...,
+			connect.WithSchema(fooServiceCreateFooMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		getFoo: connect_go.NewClient[v1beta1.GetFooRequest, v1beta1.GetFooResponse](
+		getFoo: connect.NewClient[v1beta1.GetFooRequest, v1beta1.GetFooResponse](
 			httpClient,
 			baseURL+FooServiceGetFooProcedure,
-			opts...,
+			connect.WithSchema(fooServiceGetFooMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		listFoos: connect_go.NewClient[v1beta1.ListFoosRequest, v1beta1.ListFoosResponse](
+		listFoos: connect.NewClient[v1beta1.ListFoosRequest, v1beta1.ListFoosResponse](
 			httpClient,
 			baseURL+FooServiceListFoosProcedure,
-			opts...,
+			connect.WithSchema(fooServiceListFoosMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
-		deleteFoo: connect_go.NewClient[v1beta1.DeleteFooRequest, v1beta1.DeleteFooResponse](
+		deleteFoo: connect.NewClient[v1beta1.DeleteFooRequest, v1beta1.DeleteFooResponse](
 			httpClient,
 			baseURL+FooServiceDeleteFooProcedure,
-			opts...,
+			connect.WithSchema(fooServiceDeleteFooMethodDescriptor),
+			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
 // fooServiceClient implements FooServiceClient.
 type fooServiceClient struct {
-	createFoo *connect_go.Client[v1beta1.CreateFooRequest, v1beta1.CreateFooResponse]
-	getFoo    *connect_go.Client[v1beta1.GetFooRequest, v1beta1.GetFooResponse]
-	listFoos  *connect_go.Client[v1beta1.ListFoosRequest, v1beta1.ListFoosResponse]
-	deleteFoo *connect_go.Client[v1beta1.DeleteFooRequest, v1beta1.DeleteFooResponse]
+	createFoo *connect.Client[v1beta1.CreateFooRequest, v1beta1.CreateFooResponse]
+	getFoo    *connect.Client[v1beta1.GetFooRequest, v1beta1.GetFooResponse]
+	listFoos  *connect.Client[v1beta1.ListFoosRequest, v1beta1.ListFoosResponse]
+	deleteFoo *connect.Client[v1beta1.DeleteFooRequest, v1beta1.DeleteFooResponse]
 }
 
 // CreateFoo calls bvr.v1beta1.FooService.CreateFoo.
-func (c *fooServiceClient) CreateFoo(ctx context.Context, req *connect_go.Request[v1beta1.CreateFooRequest]) (*connect_go.Response[v1beta1.CreateFooResponse], error) {
+func (c *fooServiceClient) CreateFoo(ctx context.Context, req *connect.Request[v1beta1.CreateFooRequest]) (*connect.Response[v1beta1.CreateFooResponse], error) {
 	return c.createFoo.CallUnary(ctx, req)
 }
 
 // GetFoo calls bvr.v1beta1.FooService.GetFoo.
-func (c *fooServiceClient) GetFoo(ctx context.Context, req *connect_go.Request[v1beta1.GetFooRequest]) (*connect_go.Response[v1beta1.GetFooResponse], error) {
+func (c *fooServiceClient) GetFoo(ctx context.Context, req *connect.Request[v1beta1.GetFooRequest]) (*connect.Response[v1beta1.GetFooResponse], error) {
 	return c.getFoo.CallUnary(ctx, req)
 }
 
 // ListFoos calls bvr.v1beta1.FooService.ListFoos.
-func (c *fooServiceClient) ListFoos(ctx context.Context, req *connect_go.Request[v1beta1.ListFoosRequest]) (*connect_go.Response[v1beta1.ListFoosResponse], error) {
+func (c *fooServiceClient) ListFoos(ctx context.Context, req *connect.Request[v1beta1.ListFoosRequest]) (*connect.Response[v1beta1.ListFoosResponse], error) {
 	return c.listFoos.CallUnary(ctx, req)
 }
 
 // DeleteFoo calls bvr.v1beta1.FooService.DeleteFoo.
-func (c *fooServiceClient) DeleteFoo(ctx context.Context, req *connect_go.Request[v1beta1.DeleteFooRequest]) (*connect_go.Response[v1beta1.DeleteFooResponse], error) {
+func (c *fooServiceClient) DeleteFoo(ctx context.Context, req *connect.Request[v1beta1.DeleteFooRequest]) (*connect.Response[v1beta1.DeleteFooResponse], error) {
 	return c.deleteFoo.CallUnary(ctx, req)
 }
 
 // FooServiceHandler is an implementation of the bvr.v1beta1.FooService service.
 type FooServiceHandler interface {
-	CreateFoo(context.Context, *connect_go.Request[v1beta1.CreateFooRequest]) (*connect_go.Response[v1beta1.CreateFooResponse], error)
-	GetFoo(context.Context, *connect_go.Request[v1beta1.GetFooRequest]) (*connect_go.Response[v1beta1.GetFooResponse], error)
-	ListFoos(context.Context, *connect_go.Request[v1beta1.ListFoosRequest]) (*connect_go.Response[v1beta1.ListFoosResponse], error)
-	DeleteFoo(context.Context, *connect_go.Request[v1beta1.DeleteFooRequest]) (*connect_go.Response[v1beta1.DeleteFooResponse], error)
+	CreateFoo(context.Context, *connect.Request[v1beta1.CreateFooRequest]) (*connect.Response[v1beta1.CreateFooResponse], error)
+	GetFoo(context.Context, *connect.Request[v1beta1.GetFooRequest]) (*connect.Response[v1beta1.GetFooResponse], error)
+	ListFoos(context.Context, *connect.Request[v1beta1.ListFoosRequest]) (*connect.Response[v1beta1.ListFoosResponse], error)
+	DeleteFoo(context.Context, *connect.Request[v1beta1.DeleteFooRequest]) (*connect.Response[v1beta1.DeleteFooResponse], error)
 }
 
 // NewFooServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -125,26 +138,30 @@ type FooServiceHandler interface {
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewFooServiceHandler(svc FooServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	fooServiceCreateFooHandler := connect_go.NewUnaryHandler(
+func NewFooServiceHandler(svc FooServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	fooServiceCreateFooHandler := connect.NewUnaryHandler(
 		FooServiceCreateFooProcedure,
 		svc.CreateFoo,
-		opts...,
+		connect.WithSchema(fooServiceCreateFooMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	fooServiceGetFooHandler := connect_go.NewUnaryHandler(
+	fooServiceGetFooHandler := connect.NewUnaryHandler(
 		FooServiceGetFooProcedure,
 		svc.GetFoo,
-		opts...,
+		connect.WithSchema(fooServiceGetFooMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	fooServiceListFoosHandler := connect_go.NewUnaryHandler(
+	fooServiceListFoosHandler := connect.NewUnaryHandler(
 		FooServiceListFoosProcedure,
 		svc.ListFoos,
-		opts...,
+		connect.WithSchema(fooServiceListFoosMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
-	fooServiceDeleteFooHandler := connect_go.NewUnaryHandler(
+	fooServiceDeleteFooHandler := connect.NewUnaryHandler(
 		FooServiceDeleteFooProcedure,
 		svc.DeleteFoo,
-		opts...,
+		connect.WithSchema(fooServiceDeleteFooMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
 	)
 	return "/bvr.v1beta1.FooService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -165,18 +182,18 @@ func NewFooServiceHandler(svc FooServiceHandler, opts ...connect_go.HandlerOptio
 // UnimplementedFooServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedFooServiceHandler struct{}
 
-func (UnimplementedFooServiceHandler) CreateFoo(context.Context, *connect_go.Request[v1beta1.CreateFooRequest]) (*connect_go.Response[v1beta1.CreateFooResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.CreateFoo is not implemented"))
+func (UnimplementedFooServiceHandler) CreateFoo(context.Context, *connect.Request[v1beta1.CreateFooRequest]) (*connect.Response[v1beta1.CreateFooResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.CreateFoo is not implemented"))
 }
 
-func (UnimplementedFooServiceHandler) GetFoo(context.Context, *connect_go.Request[v1beta1.GetFooRequest]) (*connect_go.Response[v1beta1.GetFooResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.GetFoo is not implemented"))
+func (UnimplementedFooServiceHandler) GetFoo(context.Context, *connect.Request[v1beta1.GetFooRequest]) (*connect.Response[v1beta1.GetFooResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.GetFoo is not implemented"))
 }
 
-func (UnimplementedFooServiceHandler) ListFoos(context.Context, *connect_go.Request[v1beta1.ListFoosRequest]) (*connect_go.Response[v1beta1.ListFoosResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.ListFoos is not implemented"))
+func (UnimplementedFooServiceHandler) ListFoos(context.Context, *connect.Request[v1beta1.ListFoosRequest]) (*connect.Response[v1beta1.ListFoosResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.ListFoos is not implemented"))
 }
 
-func (UnimplementedFooServiceHandler) DeleteFoo(context.Context, *connect_go.Request[v1beta1.DeleteFooRequest]) (*connect_go.Response[v1beta1.DeleteFooResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.DeleteFoo is not implemented"))
+func (UnimplementedFooServiceHandler) DeleteFoo(context.Context, *connect.Request[v1beta1.DeleteFooRequest]) (*connect.Response[v1beta1.DeleteFooResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("bvr.v1beta1.FooService.DeleteFoo is not implemented"))
 }

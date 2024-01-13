@@ -2,9 +2,13 @@ syntax = "proto3";
 
 package bvr.v1beta1;
 
+import "google/api/annotations.proto";
+
 service FooService {
   rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
-  rpc GetFoo(GetFooRequest) returns (GetFooResponse) {}
+  rpc GetFoo(GetFooRequest) returns (GetFooResponse) {
+    option (google.api.http).get = "/foos/{id}";
+  }
   rpc ListFoos(ListFoosRequest) returns (ListFoosResponse) {}
   rpc DeleteFoo(DeleteFooRequest) returns (DeleteFooResponse) {}
 }
