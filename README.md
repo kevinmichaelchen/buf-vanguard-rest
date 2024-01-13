@@ -1,12 +1,13 @@
 # buf-vanguard-rest
 
-A demo showing how one [Buf][buf] API can offer REST, gRPC, and
-[Connect][connect] protocols using the [Vanguard][vanguard] library.
+A demo showing how one [Buf][buf] API can offer GraphQL, REST, gRPC, and
+[Connect][connect] protocols, using a combination of [Vanguard][vanguard] and [Tailcall][tailcall].
 
 Inspired by this [example][vanguard-example].
 
 [buf]: https://buf.build/
 [connect]: https://connectrpc.com/
+[tailcall]: https://tailcall.run/
 [vanguard]: https://github.com/connectrpc/vanguard-go
 [vanguard-example]:
   https://github.com/connectrpc/vanguard-go/blob/main/internal/examples/pets/internal/proto/io/swagger/petstore/v2/pets.proto
@@ -62,10 +63,9 @@ pkgx http http://localhost:8080/bvr.v1beta1.FooService/CreateFoo name="BAR"
 
 ### Make a GraphQL request
 
-Thanks to [Tailcall][tailcall], we've able to generate a GraphQL API frmo our
+Thanks to [Tailcall][tailcall], we've able to generate a GraphQL API from our
 Vanguard HTTP APIs. (See [**`tailcall.graphql`**][tailcall-graphql]).
 
-[tailcall]: https://tailcall.run/
 [tailcall-graphql]: ./tailcall.graphql
 
 Once you've started the Tailcall server with:
