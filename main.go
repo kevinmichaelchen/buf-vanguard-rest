@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/charmbracelet/log"
-	v1beta1 "github.com/kevinmichaelchen/buf-vanguard-rest/internal/idl/bvr/v1beta1"
 	"net"
 	"net/http"
 	"time"
@@ -12,10 +10,12 @@ import (
 	connectGo "connectrpc.com/connect"
 	"connectrpc.com/grpcreflect"
 	"connectrpc.com/vanguard"
+	"github.com/charmbracelet/log"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 
 	"github.com/kevinmichaelchen/buf-vanguard-rest/internal"
+	v1beta1 "github.com/kevinmichaelchen/buf-vanguard-rest/internal/idl/bvr/v1beta1"
 	connectPB "github.com/kevinmichaelchen/buf-vanguard-rest/internal/idl/bvr/v1beta1/bvrv1beta1connect"
 )
 

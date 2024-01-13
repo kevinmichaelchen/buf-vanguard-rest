@@ -1,0 +1,56 @@
+schema
+  # Specify server configuration.
+  # Start tailcall server at 0.0.0.0:8000
+  # Enable GraphiQL playground
+  @server(port: 8000, graphiql: true)
+
+  # Specify a base url for all HTTP requests.
+  @upstream(baseURL: "http://localhost:8080") {
+  query: Query
+}
+
+type Query {
+  foo(input: GetFooRequest!): GetFooResponse
+    @http(
+      path: "/foos/{{args.input.id}}"
+    )
+}
+
+type Foo {
+  id: ID!
+  name: String!
+}
+
+type CreateFooRequest {
+  name: String!
+}
+
+type CreateFooResponse {
+  foo: Foo!
+}
+
+type GetFooRequest {
+  id: String!
+}
+
+type GetFooResponse {
+  foo: Foo!
+}
+
+type ListFoosRequest {
+  parent: String!
+  pageSize: String!
+  pageToken: String!
+}
+
+type ListFoosResponse {
+  foo: [Foo!]!
+}
+
+type DeleteFooRequest {
+  id: ID!
+}
+
+type DeleteFooResponse {
+  id: ID!
+}
