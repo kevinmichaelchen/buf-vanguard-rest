@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package bvr.v1beta1;
 
-import "buf/validate/validate.proto";
-import "google/protobuf/timestamp.proto";
-
 service FooService {
   rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
   rpc GetFoo(GetFooRequest) returns (GetFooResponse) {}
@@ -47,8 +44,6 @@ message DeleteFooRequest {
   string id = 1;
 }
 
-message DeleteFooResponse {
-}
+message DeleteFooResponse {}
 
-message PageToken {
-}
+message PageToken {}
