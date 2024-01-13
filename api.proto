@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package bvr.v1beta1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+service FooService {
+  rpc CreateFoo(CreateFooRequest) returns (CreateFooResponse) {}
+  rpc GetFoo(GetFooRequest) returns (GetFooResponse) {}
+  rpc ListFoos(ListFoosRequest) returns (ListFoosResponse) {}
+  rpc DeleteFoo(DeleteFooRequest) returns (DeleteFooResponse) {}
+}
+
+message Foo {
+  string id = 1;
+  string name = 2;
+}
+
+message CreateFooRequest {
+  string name = 1;
+}
+
+message CreateFooResponse {
+  Foo foo = 1;
+}
+
+message GetFooRequest {
+  string id = 1;
+}
+
+message GetFooResponse {
+  Foo foo = 1;
+}
+
+message ListFoosRequest {
+  string parent = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message ListFoosResponse {
+  repeated Foo foos = 1;
+}
+
+message DeleteFooRequest {
+  string id = 1;
+}
+
+message DeleteFooResponse {
+}
+
+message PageToken {
+}

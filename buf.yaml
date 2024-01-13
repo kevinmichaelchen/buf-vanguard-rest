@@ -1,0 +1,11 @@
+version: v1
+name: buf.build/kevinmichaelchen/bvr-demo
+deps:
+  - buf.build/bufbuild/protovalidate
+  - buf.build/googleapis/googleapis
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

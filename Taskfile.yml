@@ -1,0 +1,39 @@
+version: "3"
+
+dotenv: [".env"]
+
+includes:
+  buf:
+    taskfile: ./taskfiles/buf.yml
+  go:
+    taskfile: ./taskfiles/golang.yml
+
+tasks:
+  generate:
+    aliases:
+      - gen
+    desc: "Generate code (e.g., protobufs)"
+    deps:
+      - buf:gen
+
+  lint:
+    desc: "Lints the code"
+    deps:
+      - buf:lint
+      - go:lint
+
+  format:
+    aliases: [fmt]
+    run: once
+    desc: "Formats all code"
+    deps:
+      - buf:fmt
+      - go:fmt
+      - fmt-md
+
+  fmt-md:
+    run: once
+    internal: true
+    desc: "Format Markdown"
+    cmds:
+      - 'pkgx bunx prettier --write "**/*.md" --prose-wrap always'

@@ -1,0 +1,52 @@
+version: "3"
+
+vars:
+  MODULES:
+    sh: pkgx fd buf.yaml | xargs dirname
+  MODULE_CHOICE:
+    sh: pkgx fd buf.yaml | xargs dirname | paste -sd " " -
+
+tasks:
+  gen:
+    internal: true
+    run: once
+    aliases:
+      - generate
+    desc: "Generate protobufs"
+    cmd: pkgx buf@latest generate
+
+  format:
+    run: once
+    aliases:
+      - fmt
+    cmd: pkgx buf@latest format -w
+
+  lint:
+    run: once
+    deps:
+      - format
+    cmd: pkgx buf@latest lint
+
+  docs:
+    desc: "Open the module's homepage in a web browser"
+    interactive: true
+    vars:
+      MODULE:
+        sh: pkgx gum choose {{.MODULE_CHOICE}}
+    cmd: pkgx buf@latest mod open {{.MODULE}}
+
+  mod-update:
+    aliases:
+      - update
+    desc: "Update modules' dependencies by updating the buf.lock file"
+    cmds:
+      - for: { var: MODULES }
+        cmd: pkgx buf@latest mod update {{.ITEM}}
+
+  mod-prune:
+    aliases:
+      - prune
+    desc: "Prune unused dependencies from the buf.lock file"
+    cmds:
+      - for: { var: MODULES }
+        cmd: pkgx buf@latest mod prune {{.ITEM}}
